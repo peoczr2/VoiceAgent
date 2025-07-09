@@ -1,0 +1,10 @@
+openai
+openai-agents
+flask
+twilio
+flask-sockets
+gevent
+gevent-websocket
+python-dotenv
+numpy
+pyaudio
