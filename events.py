@@ -57,4 +57,18 @@ class TranscriptionEvent():
 class TTSEvent():
     text: str
 
+def make_event(obj: dict[str, Any]) -> Any:
+    """
+    Given a dict with a 'type' key, look up the right dataclass,
+    filter only the fields it expects, and instantiate it.
+    """
+    t = obj.get("type")
+    cls = _event_registry.get(t)
+    if cls is None:
+        raise ValueError(f"Unknown event type: {t!r}")
 
+    # Pick only the fields that the dataclass defines:
+    valid_keys = {f.name for f in fields(cls)}
+    init_kwargs = {k: v for k, v in obj.items() if k in valid_keys}
+
+    return cls(**init_kwargs)
