@@ -37,11 +37,11 @@ class WebsocketDoneSentinel:
     """Internal marker pushed on _event_queue once the websocket iterator finishes."""
 
 
-async def _wait_for_event(
-    event_queue: asyncio.Queue[dict[str, Any]],
+async def _wait_for_event[EventT](
+    event_queue: asyncio.Queue[EventT],
     expected_types: list[str],
     timeout: float,
-) -> dict[str, Any]:
+) -> EventT:
     """
     Block until an event appears on *event_queue* whose ``type`` is in *expected_types*.
 
@@ -92,8 +92,8 @@ class OpenAIRealtimeTranscriber(Transcriber):
         self.output_queue: asyncio.Queue[Any] = self._output_queue
 
         self._websocket: websockets.ClientConnection | None = None
-        self._event_queue: asyncio.Queue[dict[str, Any] | WebsocketDoneSentinel] = asyncio.Queue()
-        self._state_queue: asyncio.Queue[dict[str, Any]] = asyncio.Queue()
+        self._event_queue: asyncio.Queue[dict[str, Any] | OpenAIRealtimeSessionEvent | WebsocketDoneSentinel] = asyncio.Queue()
+        self._state_queue: asyncio.Queue[OpenAIRealtimeSessionEvent] = asyncio.Queue()
         self._turn_audio_buffer: list[npt.NDArray[np.int16 | np.float32]] = []
 
         # Tasks -------------------------------------------------------------------------
@@ -114,7 +114,6 @@ class OpenAIRealtimeTranscriber(Transcriber):
         """End a speech turn – placeholder kept for parity with upstream codebase."""
         self._turn_audio_buffer = []
 
-    # ------------------------------------------------------------- websocket plumbing ----
     async def _event_listener(self) -> None:
         """
         Iterate the websocket and stick every event JSON onto ``_event_queue`` (and
@@ -123,19 +122,14 @@ class OpenAIRealtimeTranscriber(Transcriber):
         assert self._websocket is not None, "Websocket not initialised"
         async for message in self._websocket:
             try:
-                event = json.loads(message)
+                event = make_event(json.loads(message))
 
-                evt_type = event.get("type", "")
-                if evt_type == "error":
+                match event:
+                    case OpenAIRealtimeSessionEvent():
+                        await self._state_queue.put(event)
+
+                if event.type == "error":
                     raise# STTWebsocketConnectionError(f"Error event: {event.get('error')}")
-
-                if evt_type in {
-                    "session.updated",
-                    "transcription_session.updated",
-                    "session.created",
-                    "transcription_session.created",
-                }:
-                    await self._state_queue.put(event)
 
                 await self._event_queue.put(event)
             except Exception as exc:
