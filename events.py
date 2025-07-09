@@ -1,9 +1,19 @@
 from __future__ import annotations
 
 
-from typing import Literal, Optional, Any, Type, TypeVar
+from typing import (
+    Literal,
+    Optional,
+    Any,
+    Type,
+    TypeVar,
+    get_args,
+    get_origin,
+    get_type_hints,
+)
 from pydantic import BaseModel
 from dataclasses import dataclass, fields
+import dataclasses
 
 from typing_extensions import TypeAlias
 
@@ -23,8 +33,20 @@ def register_event(cls: Type[EventT]) -> Type[EventT]:
     # Grab the default value from the `type` field
     tfield = next(f for f in fields(cls) if f.name == "type")
     type_value = getattr(cls, "type", None) or tfield.default
-    if type_value is None or type_value is dataclass._MISSING_TYPE:  # type: ignore
-        raise ValueError(f"Event class {cls.__name__} must have a 'type' field with a default value or class attribute")
+    if type_value is None or type_value is dataclasses.MISSING:
+        # Support registration based on Literal annotation if no default is provided
+        hints = get_type_hints(cls)
+        annotated_type = hints.get("type", tfield.type)
+        origin = get_origin(annotated_type)
+        if origin is Literal:
+            for val in get_args(annotated_type):
+                if not isinstance(val, str):
+                    raise TypeError("'type' literal values must be strings")
+                _event_registry[str(val)] = cls
+            return cls
+        raise ValueError(
+            f"Event class {cls.__name__} must have a 'type' field with a default value or class attribute"
+        )
     if not isinstance(type_value, str):
         raise TypeError(f"'type' field value must be a string, got {type(type_value)}")
     _event_registry[type_value] = cls
