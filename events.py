@@ -60,6 +60,15 @@ class AudioEvent():
 
 @register_event
 @dataclass
+class OpenAIRealtimeSessionEvent():
+    session_id: str
+    type: Literal["session.updated",
+                    "transcription_session.updated",
+                    "session.created",
+                    "transcription_session.created"]
+
+@register_event
+@dataclass
 class TextEvent():
     text: str
     type: Literal['text'] = 'text'
