@@ -14,6 +14,6 @@ async def _main():
     computer.set_output_queue(output_queue)
     await computer_task
 
-# python -m tests.transcriber_test
+# python -m tests.test_transcriber
 if __name__ == "__main__":
     asyncio.run(_main())
