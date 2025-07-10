@@ -4,6 +4,8 @@ import asyncio
 import base64
 import json
 import time
+import logging
+import sys
 from dataclasses import dataclass
 from typing import Any
 
@@ -29,6 +31,29 @@ SESSION_CREATION_TIMEOUT = 10    # seconds
 SESSION_UPDATE_TIMEOUT = 10      # seconds
 
 DEFAULT_TURN_DETECTION = {"type": "semantic_vad"}
+
+# ---------------------------------------------------------------------------
+# Logging setup
+# ---------------------------------------------------------------------------
+logger = logging.getLogger(__name__)
+
+def configure_logging(log_file: str = "transcriber.log", level: int = logging.INFO) -> None:
+    """Configure both file and stdout logging for this module."""
+    logger.setLevel(level)
+    logger.propagate = False
+
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
+    fh = logging.FileHandler(log_file)
+    fh.setFormatter(formatter)
+    sh = logging.StreamHandler(sys.stdout)
+    sh.setFormatter(formatter)
+
+    # Replace handlers if this is called multiple times
+    logger.handlers.clear()
+    logger.addHandler(fh)
+    logger.addHandler(sh)
+
 
 
 @dataclass
@@ -129,6 +154,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
         async for message in self._websocket:
             try:
                 event = make_event(json.loads(message))
+                logger.debug("Received event: %s", event)
 
                 if isinstance(event, OpenAIRealtimeSessionEvent):
                     await self._state_queue.put(event)
@@ -179,21 +205,25 @@ class OpenAIRealtimeTranscriber(Transcriber):
                 if isinstance(evt, InputAudioTranscriptionCompletedEvent):
                     transcript = evt.transcript
                     if transcript:
+                        logger.info("Transcript: %s", transcript)
                         await self._output_queue.put({"type": "transcript", "text": transcript})
                     self._end_turn(transcript)
                     self._start_turn()
                 elif isinstance(evt, InputAudioTranscriptionFailedEvent):
+                    logger.error("Transcription failed: %s", evt.error)
                     await self._output_queue.put(
                         ErrorSentinel(Exception(f"Transcription failed: {evt.error}"))
                     )
                 else:
                     await self._output_queue.put(evt)
             except asyncio.TimeoutError:
+                logger.debug("No events received for %d ms", EVENT_INACTIVITY_TIMEOUT)
                 break
             except Exception as exc:
                 await self._output_queue.put(ErrorSentinel(exc))
                 raise
         await self._output_queue.put(SessionCompleteSentinel())
+        logger.info("Event handling completed")
 
     async def _stream_audio(self) -> None:
         """Forward audio buffers from ``_input_queue`` to the websocket."""
@@ -209,6 +239,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
 
             self._turn_audio_buffer.append(buffer)
             try:
+                logger.debug("Sending audio chunk of size %d", buffer.nbytes)
                 await self._websocket.send(
                     json.dumps(
                         {
@@ -223,6 +254,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
                 await self._output_queue.put(ErrorSentinel(exc))
                 raise
             await asyncio.sleep(0)
+        logger.info("Audio streaming completed")
 
     async def _handle_websocket_connection(self) -> None:
         try:
@@ -235,6 +267,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
                 },
             ) as ws:
                 self._websocket = ws
+                logger.info("Websocket connection established")
 
                 # Listener & handshake
                 self._listener_task = asyncio.create_task(self._event_listener())
@@ -255,7 +288,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
                 self._stream_audio_task = asyncio.create_task(self._stream_audio())
 
                 self.connected = True
-                #logger.debug("Realtime transcription websocket established")
+                logger.info("Realtime transcription websocket established")
 
                 await asyncio.gather(
                     self._listener_task,
@@ -263,6 +296,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
                     self._stream_audio_task,
                 )
         except Exception as exc:
+            logger.exception("Websocket connection failed")
             await self._output_queue.put(ErrorSentinel(exc))
             self._stored_exception = exc
         finally:
@@ -277,6 +311,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
             raise #AgentsException("Session already started")
 
         self._input_queue = input_queue
+        logger.info("Starting transcription session")
         self._ws_connection_task = asyncio.create_task(self._handle_websocket_connection())
         return self._output_queue
 
@@ -285,6 +320,7 @@ class OpenAIRealtimeTranscriber(Transcriber):
             self._ws_connection_task.cancel()
         if self._websocket:
             await self._websocket.close()
+        logger.info("Transcription session closed")
 
 async def main():
     import dotenv
