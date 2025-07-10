@@ -5,14 +5,22 @@ import base64
 import json
 import time
 from dataclasses import dataclass
-from typing import Any, cast
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
 import websockets
 from openai import AsyncOpenAI
 
-from events import *
+from events import (
+    AudioEvent,
+    OpenAIRealtimeSessionEvent,
+    InputAudioTranscriptionCompletedEvent,
+    InputAudioTranscriptionFailedEvent,
+    TranscriptionServerEvent,
+    SessionLifecycleEvent,
+    make_event,
+)
 #from ..exceptions import STTWebsocketConnectionError, AgentsException
 #from ..logger import logger
 
@@ -39,28 +47,24 @@ class WebsocketDoneSentinel:
 
 async def _wait_for_event[EventT](
     event_queue: asyncio.Queue[EventT],
-    expected_types: list[str],
+    expected: list[str] | list[type[EventT]],
     timeout: float,
 ) -> EventT:
-    """
-    Block until an event appears on *event_queue* whose ``type`` is in *expected_types*.
-
-    Raises
-    ------
-    TimeoutError
-        If *timeout* seconds elapse without receiving the event.
-    """
-    start_time = time.time()
+    """Wait until an event of one of the expected types appears."""
+    start = time.time()
     while True:
-        remaining = timeout - (time.time() - start_time)
-        if remaining <= 0:
-            raise TimeoutError(f"Timeout waiting for event(s): {expected_types}")
-        evt = await asyncio.wait_for(event_queue.get(), timeout=remaining)
-        evt_type = evt.get("type", "")
-        if evt_type in expected_types:
-            return evt
-        elif evt_type == "error":
-            raise #STTWebsocketConnectionError(f"Error event: {evt.get('error')}")
+        rem = timeout - (time.time() - start)
+        if rem <= 0:
+            raise TimeoutError(f"Timeout waiting for event(s): {expected}")
+        evt = await asyncio.wait_for(event_queue.get(), timeout=rem)
+        if isinstance(expected[0], type):
+            if any(isinstance(evt, cls) for cls in expected):
+                return evt
+        else:
+            if getattr(evt, 'type', '') in expected:
+                return evt
+        if getattr(evt, 'type', '') == 'error':
+            raise
 
 
 class Transcriber:
@@ -92,8 +96,10 @@ class OpenAIRealtimeTranscriber(Transcriber):
         self.output_queue: asyncio.Queue[Any] = self._output_queue
 
         self._websocket: websockets.ClientConnection | None = None
-        self._event_queue: asyncio.Queue[dict[str, Any] | OpenAIRealtimeSessionEvent | WebsocketDoneSentinel] = asyncio.Queue()
-        self._state_queue: asyncio.Queue[OpenAIRealtimeSessionEvent] = asyncio.Queue()
+        self._event_queue: asyncio.Queue[
+            TranscriptionServerEvent | WebsocketDoneSentinel
+        ] = asyncio.Queue()
+        self._state_queue: asyncio.Queue[SessionLifecycleEvent] = asyncio.Queue()
         self._turn_audio_buffer: list[npt.NDArray[np.int16 | np.float32]] = []
 
         # Tasks -------------------------------------------------------------------------
@@ -124,14 +130,18 @@ class OpenAIRealtimeTranscriber(Transcriber):
             try:
                 event = make_event(json.loads(message))
 
-                match event:
-                    case OpenAIRealtimeSessionEvent():
-                        await self._state_queue.put(event)
+                if isinstance(event, OpenAIRealtimeSessionEvent):
+                    await self._state_queue.put(event)
 
-                if event.type == "error":
-                    raise# STTWebsocketConnectionError(f"Error event: {event.get('error')}")
-
-                await self._event_queue.put(event)
+                if isinstance(
+                    event,
+                    (
+                        OpenAIRealtimeSessionEvent,
+                        InputAudioTranscriptionCompletedEvent,
+                        InputAudioTranscriptionFailedEvent,
+                    ),
+                ):
+                    await self._event_queue.put(event)
             except Exception as exc:
                 await self._output_queue.put(ErrorSentinel(exc))
                 raise
@@ -166,13 +176,16 @@ class OpenAIRealtimeTranscriber(Transcriber):
                 if isinstance(evt, WebsocketDoneSentinel):
                     break
 
-                evt_type = evt.get("type", "")
-                if evt_type == "conversation.item.input_audio_transcription.completed":
-                    transcript = cast(str, evt.get("transcript", ""))
+                if isinstance(evt, InputAudioTranscriptionCompletedEvent):
+                    transcript = evt.transcript
                     if transcript:
                         await self._output_queue.put({"type": "transcript", "text": transcript})
-                        self._end_turn(transcript)
-                        self._start_turn()
+                    self._end_turn(transcript)
+                    self._start_turn()
+                elif isinstance(evt, InputAudioTranscriptionFailedEvent):
+                    await self._output_queue.put(
+                        ErrorSentinel(Exception(f"Transcription failed: {evt.error}"))
+                    )
                 else:
                     await self._output_queue.put(evt)
             except asyncio.TimeoutError:

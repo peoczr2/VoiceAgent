@@ -3,7 +3,7 @@
 VoicePipeline:
     Running STT stream 1 for users speech
         Use openai Realtime transcription api
-            Emits input_audio_transcription.completed, speech_started and speech_stopped events
+            Emits input_audio_transcription.completed/failed, speech_started and speech_stopped events
             if speech_stopped
                 nothing for now
 
