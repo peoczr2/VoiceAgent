@@ -1,7 +1,8 @@
-from transcriber import *
+from transcriber import OpenAIRealtimeTranscriber, configure_logging
 from computer_media import ComputerMediaControl
 
 async def _main():
+    configure_logging()
     computer = ComputerMediaControl()
 
     import dotenv
