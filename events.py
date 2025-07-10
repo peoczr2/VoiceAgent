@@ -88,6 +88,30 @@ class TranscriptionEvent():
 class TTSEvent():
     text: str
 
+@register_event
+@dataclass
+class InputAudioTranscriptionCompletedEvent:
+    transcript: str
+    type: Literal[
+        'conversation.item.input_audio_transcription.completed'
+    ] = 'conversation.item.input_audio_transcription.completed'
+
+@register_event
+@dataclass
+class InputAudioTranscriptionFailedEvent:
+    error: Any
+    type: Literal[
+        'conversation.item.input_audio_transcription.failed'
+    ] = 'conversation.item.input_audio_transcription.failed'
+
+TranscriptionServerEvent: TypeAlias = (
+    OpenAIRealtimeSessionEvent
+    | InputAudioTranscriptionCompletedEvent
+    | InputAudioTranscriptionFailedEvent
+)
+
+SessionLifecycleEvent: TypeAlias = OpenAIRealtimeSessionEvent
+
 def make_event(obj: dict[str, Any]) -> Any:
     """
     Given a dict with a 'type' key, look up the right dataclass,
