@@ -59,7 +59,7 @@ class VoicePipeline:
                 # No new events for a while. Assume the session is done.
                 break
             except Exception as e:
-                await self._output_queue.put(ErrorSentinel(e))
+                await self._output_queue.put(ErrorEvent(error=str(e)))
                 raise e
         await self._output_queue.put(SessionCompleteSentinel())
 
@@ -82,7 +82,7 @@ class VoicePipeline:
                 # No new events for a while. Assume the session is done.
                 break
             except Exception as e:
-                await self._output_queue.put(ErrorSentinel(e))
+                await self._output_queue.put(ErrorEvent(error=str(e)))
                 raise e
         await self._output_queue.put(SessionCompleteSentinel())
 
@@ -104,7 +104,7 @@ class VoicePipeline:
                 # No new events for a while. Assume the session is done.
                 break
             except Exception as e:
-                await self._output_queue.put(ErrorSentinel(e))
+                await self._output_queue.put(ErrorEvent(error=str(e)))
                 raise e
         await self._output_queue.put(SessionCompleteSentinel())
     async def process_tts(self, tts_event: TTSEvent) -> AsyncIterator[BaseEvent]:
@@ -127,7 +127,7 @@ class VoicePipeline:
                 # No new events for a while. Assume the session is done.
                 break
             except Exception as e:
-                await self._output_queue.put(ErrorSentinel(e))
+                await self._output_queue.put(ErrorEvent(error=str(e)))
                 raise e
         await self._output_queue.put(SessionCompleteSentinel())
 
