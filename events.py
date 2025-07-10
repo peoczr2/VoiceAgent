@@ -104,6 +104,13 @@ class InputAudioTranscriptionFailedEvent:
         'conversation.item.input_audio_transcription.failed'
     ] = 'conversation.item.input_audio_transcription.failed'
 
+@register_event
+@dataclass
+class ErrorEvent:
+    """Generic error event for queue-based APIs."""
+    error: Any
+    type: Literal['error'] = 'error'
+
 TranscriptionServerEvent: TypeAlias = (
     OpenAIRealtimeSessionEvent
     | InputAudioTranscriptionCompletedEvent
