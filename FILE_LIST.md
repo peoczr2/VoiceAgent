@@ -14,14 +14,12 @@
 - [main.py](https://github.com/peoczr2/VoiceAgent/blob/main/main.py)
 - [output.wav](https://github.com/peoczr2/VoiceAgent/blob/main/output.wav)
 - [requirements.txt](https://github.com/peoczr2/VoiceAgent/blob/main/requirements.txt)
-- [transcriber.py](https://github.com/peoczr2/VoiceAgent/blob/main/transcriber.py)
-- [tts_service.py](https://github.com/peoczr2/VoiceAgent/blob/main/tts_service.py)
 
 ## `.gemini`
 
 - [.gemini/settings.json](https://github.com/peoczr2/VoiceAgent/blob/main/.gemini/settings.json)
 
-## `.github\workflows`
+## `.github/workflows`
 
 - [.github/workflows/run-listfiles.yml](https://github.com/peoczr2/VoiceAgent/blob/main/.github/workflows/run-listfiles.yml)
 
@@ -30,7 +28,7 @@
 - [graph/__init__.py](https://github.com/peoczr2/VoiceAgent/blob/main/graph/__init__.py)
 - [graph/service_network.py](https://github.com/peoczr2/VoiceAgent/blob/main/graph/service_network.py)
 
-## `graph\services`
+## `graph/services`
 
 - [graph/services/computer_media.py](https://github.com/peoczr2/VoiceAgent/blob/main/graph/services/computer_media.py)
 - [graph/services/error_handler_service.py](https://github.com/peoczr2/VoiceAgent/blob/main/graph/services/error_handler_service.py)
@@ -48,12 +46,4 @@
 - [tests/test_transcriber.py](https://github.com/peoczr2/VoiceAgent/blob/main/tests/test_transcriber.py)
 - [tests/test_transcriber_auto.py](https://github.com/peoczr2/VoiceAgent/blob/main/tests/test_transcriber_auto.py)
 - [tests/test_tts_service.py](https://github.com/peoczr2/VoiceAgent/blob/main/tests/test_tts_service.py)
-
-## `thresh`
-
-- [thresh/ARCHITECTURE.md](https://github.com/peoczr2/VoiceAgent/blob/main/thresh/ARCHITECTURE.md)
-- [thresh/MyVoicePipeline.py](https://github.com/peoczr2/VoiceAgent/blob/main/thresh/MyVoicePipeline.py)
-- [thresh/audio_io.py](https://github.com/peoczr2/VoiceAgent/blob/main/thresh/audio_io.py)
-- [thresh/media_control.py](https://github.com/peoczr2/VoiceAgent/blob/main/thresh/media_control.py)
-- [thresh/testLocalMic.py](https://github.com/peoczr2/VoiceAgent/blob/main/thresh/testLocalMic.py)
 

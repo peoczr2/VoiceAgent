@@ -9,6 +9,11 @@ GITHUB_PREFIX = "https://github.com/peoczr2/VoiceAgent/blob/main/"
 OUTPUT_FILE   = "FILE_LIST.md"
 TITLE         = "# Project File Index\n\n"
 
+# Folders that should be ignored when generating the list. The contents of
+# these folders remain in the repository, but they won't appear in the
+# generated FILE_LIST.
+EXCLUDED_DIRS = {"thresh"}
+
 def get_all_files_not_ignored():
     """
     Runs:
@@ -60,6 +65,11 @@ def write_markdown(groups, out_path: Path):
 # python -m listFiles
 if __name__ == "__main__":
     files = get_all_files_not_ignored()
+    # Remove files that reside within any excluded directory
+    files = [
+        f for f in files
+        if not any(f == d or f.startswith(f"{d}/") for d in EXCLUDED_DIRS)
+    ]
     if not files:
         print("No files found (or none outside .gitignore).")
         sys.exit(0)
