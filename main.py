@@ -1,5 +1,5 @@
 import asyncio
-from media_control import MediaControl
+from thresh.media_control import MediaControl
 from voice_pipeline import VoicePipeline
 from user_transcriber import UserTranscriber
 from agent_transcriber import AgentTranscriber

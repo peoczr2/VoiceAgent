@@ -1,5 +1,5 @@
 from transcriber import OpenAIRealtimeTranscriber, configure_logging
-from computer_media import ComputerMediaControl
+from graph.services.computer_media import ComputerMediaControl
 
 async def _main():
     configure_logging()

@@ -1,4 +1,4 @@
-from media_control import MediaControl
+from thresh.media_control import MediaControl
 from user_transcriber import UserTranscriber
 from agent_service import AgentService
 from tts_service import TTSService

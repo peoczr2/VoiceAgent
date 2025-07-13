@@ -1,10 +1,37 @@
 import asyncio
+
+from graph.services.service import Service
 from events import *
-from computer_media import ComputerMediaControl
+from graph.services.computer_media import ComputerMediaControl
 
 EVENT_INACTIVITY_TIMEOUT = 1000
 
-class EchoPipeline:
+class EchoService(Service):
+    """
+    A simple Service that echoes audio events.
+    """
+
+    def __init__(self):
+        pass
+
+    async def handle(self, publisher: str, event: AudioEvent):
+        if isinstance(event, AudioEvent):
+            await self.output_queue.put(event)
+        elif isinstance(event, ControlEvent) and event.type == 'end_session':
+            print("Ending session as requested.")
+            return
+
+    async def run(self):
+        asyncio.create_task
+
+
+
+
+
+
+
+
+class EchoPipeline2:
     """
     A simple VoicePipeline that echoes back audio events.
     """

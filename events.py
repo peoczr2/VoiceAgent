@@ -60,8 +60,17 @@ class AudioEvent():
 
 @register_event
 @dataclass
+class TextEvent():
+    text: str
+    type: Literal['text'] = 'text'
+
+MediaEvent: TypeAlias = AudioEvent | TextEvent
+
+
+@register_event
+@dataclass
 class OpenAIRealtimeSessionEvent():
-    session_id: str
+    event_id: str
     type: Literal["session.updated",
                     "transcription_session.updated",
                     "session.created",
@@ -69,19 +78,14 @@ class OpenAIRealtimeSessionEvent():
 
 @register_event
 @dataclass
-class TextEvent():
-    text: str
-    type: Literal['text'] = 'text'
-
-@register_event
-@dataclass
 class ControlEvent():
     type: Literal['start_session', 'end_session', 'error']
     data: Optional[Any] = None
 
+@register_event
 @dataclass
 class TranscriptionEvent():
-    type: Literal['delta', 'transcription_completed', 'speech_started', 'speech_stopped']
+    type: Literal['conversation.item.input_audio_transcription.delta', 'conversation.item.input_audio_transcription.completed', 'input_audio_buffer.speech_started', 'input_audio_buffer.speech_stopped', 'input_audio_buffer.committed', 'conversation.item.created']
     text: Optional[str] = None
 
 @dataclass
