@@ -57,6 +57,7 @@ def write_markdown(groups, out_path: Path):
                 md.write(f"- [{relpath}]({url})\n")
             md.write("\n")
 
+# python -m listFiles
 if __name__ == "__main__":
     files = get_all_files_not_ignored()
     if not files:
