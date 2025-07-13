@@ -1,0 +1,27 @@
+name: Generate FILE_LIST
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install requirements for listFiles
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f listFiles_requirements.txt ]; then pip install -r listFiles_requirements.txt; fi
+      - name: Run listFiles
+        run: |
+          python listFiles.py
+      - name: Upload FILE_LIST artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: file-list
+          path: FILE_LIST.md
