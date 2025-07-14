@@ -36,3 +36,19 @@ def test_error_handler_added_and_subscribed(tmp_path: Path):
     svc3 = DummyService("svc3")
     network.add_service("svc3", svc3)
     assert network.adjacency["svc3"]["error"] == ["error_handler"]
+
+
+def test_logger_copies_existing_subscriptions(tmp_path: Path):
+    network = ServiceNetwork()
+    svc1 = DummyService("svc1")
+    svc2 = DummyService("svc2")
+    network.add_service("svc1", svc1)
+    network.add_service("svc2", svc2)
+    network.connect("svc1", "svc2", ["text"])
+
+    log_file = tmp_path / "events.log"
+    network.add_Logging(log_file=str(log_file))
+
+    assert "event_logger" in network._services
+    assert "text" in network.adjacency["svc1"]
+    assert "event_logger" in network.adjacency["svc1"]["text"]
