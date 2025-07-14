@@ -1,4 +1,5 @@
 import asyncio
+import urllib.parse
 import webview
 
 class API:
@@ -8,6 +9,12 @@ class API:
     async def on_selection(self, text: str):
         print(f"Selection: {text}")
         self.selections.append(text)
+
+    async def popout_tab(self, url: str, title: str | None = None):
+        """Create a new window showing ``url``."""
+        target = f"ui/index.html?url={urllib.parse.quote_plus(url)}"
+        webview.create_window(title or "Tab", target, js_api=API())
+        return True
 
 async def main():
     api = API()
