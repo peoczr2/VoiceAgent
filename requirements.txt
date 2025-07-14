@@ -8,3 +8,4 @@ gevent-websocket
 python-dotenv
 numpypyaudio
 typing_extensions
+pywebview
