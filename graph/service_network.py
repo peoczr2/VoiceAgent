@@ -1,5 +1,6 @@
 from graph.services.service import Service
 from graph.services.error_handler_service import ErrorHandlerService
+from graph.services.logging_service import LoggingService
 from typing import List
 import asyncio
 
@@ -10,6 +11,8 @@ class ServiceNetwork:
         self._adjacency: dict[str, dict[str, List[str]]] = {}
         self._error_handler: ErrorHandlerService | None = None
         self._error_handler_name: str | None = None
+        self._logger: LoggingService | None = None
+        self._logger_name: str | None = None
 
     def add_service(self, name: str, svc: Service):
         self._services[name] = svc
@@ -32,6 +35,23 @@ class ServiceNetwork:
             svc.subscribe(handler, ["error"])
             self._adjacency.setdefault(svc_name, {}).setdefault("error", []).append(name)
         return handler
+
+    def add_Logging(self, name: str = "event_logger", log_file: str = "events.log"):
+        """Add a :class:`LoggingService` and mirror existing subscriptions."""
+        logger = LoggingService(log_file=log_file)
+        self._logger = logger
+        self._logger_name = name
+        self._services[name] = logger
+        self._adjacency.setdefault(name, {})
+        for pub, evt_map in self._adjacency.items():
+            if pub == name:
+                continue
+            for evt in evt_map.keys():
+                self._services[pub].subscribe(logger, [evt])
+                self._adjacency[pub].setdefault(evt, [])
+                if name not in self._adjacency[pub][evt]:
+                    self._adjacency[pub][evt].append(name)
+        return logger
 
     def connect(self, publisher_name: str, subscriber_name: str, event_types: List[str]):
         self._services[publisher_name].subscribe(self._services[subscriber_name], event_types)
