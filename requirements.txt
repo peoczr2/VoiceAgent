@@ -6,6 +6,7 @@ flask-sockets
 gevent
 gevent-websocket
 python-dotenv
-numpypyaudio
+numpy
+pyaudio
 typing_extensions
 pywebview
