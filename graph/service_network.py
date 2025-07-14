@@ -1,4 +1,5 @@
 from graph.services.service import Service
+from graph.services.error_handler_service import ErrorHandlerService
 from typing import List
 import asyncio
 
@@ -6,11 +7,31 @@ class ServiceNetwork:
     def __init__(self):
         self._services: dict[str, Service] = {}
         # publisher_name → event_type → list of subscriber_names
-        self._adjacency: dict[str, dict[str, List[str]]] = {}  
+        self._adjacency: dict[str, dict[str, List[str]]] = {}
+        self._error_handler: ErrorHandlerService | None = None
+        self._error_handler_name: str | None = None
 
     def add_service(self, name: str, svc: Service):
         self._services[name] = svc
         self._adjacency.setdefault(name, {})  # pre-populate node
+        if self._error_handler is not None and name != self._error_handler_name:
+            svc.subscribe(self._error_handler, ["error"])
+            self._adjacency[name].setdefault("error", []).append(self._error_handler_name)
+
+    def add_ErrorHandling(self, name: str = "error_handler", log_file: str = "errors.log"):
+        """Add an :class:`ErrorHandlerService` and subscribe it to all existing services."""
+        handler = ErrorHandlerService(log_file=log_file)
+        self._error_handler = handler
+        self._error_handler_name = name
+        self._services[name] = handler
+        self._adjacency.setdefault(name, {})
+        # Subscribe existing services
+        for svc_name, svc in self._services.items():
+            if svc_name == name:
+                continue
+            svc.subscribe(handler, ["error"])
+            self._adjacency.setdefault(svc_name, {}).setdefault("error", []).append(name)
+        return handler
 
     def connect(self, publisher_name: str, subscriber_name: str, event_types: List[str]):
         self._services[publisher_name].subscribe(self._services[subscriber_name], event_types)
