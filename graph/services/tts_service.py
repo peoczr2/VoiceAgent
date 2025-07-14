@@ -78,37 +78,38 @@ class OpenAITTSService(TTSService):
         self._voice = voice
 
     async def synthesize(self, text: str) -> npt.NDArray[np.int16]:
+        """Return the full synthesized audio for ``text`` as a PCM array."""
         logger.info("Synthesize for text: %s", text)
-        async with self._client.audio.speech.with_streaming_response.create(
+        response = await self._client.audio.speech.with_streaming_response.create(
             input=text,
             model=self._model,
             voice=self._voice,
             response_format="pcm",
-        ) as response:
-            chunks: list[bytes] = []
-            async for chunk in response.iter_bytes():
-                chunks.append(chunk)
-            audio_bytes = b"".join(chunks)
-            return np.frombuffer(audio_bytes, dtype=np.int16)
+        )
+        chunks: list[bytes] = []
+        async for chunk in response.iter_bytes():
+            chunks.append(chunk)
+        audio_bytes = b"".join(chunks)
+        return np.frombuffer(audio_bytes, dtype=np.int16)
     async def synthesize_stream(self, text: str):
         logger.info("synthesize_stream for text: %s", text)
-        async with self._client.audio.speech.with_streaming_response.create(
+        response = await self._client.audio.speech.with_streaming_response.create(
             input=text,
             model=self._model,
             voice=self._voice,
             response_format="pcm",
-        ) as response:
-            leftover = b""
-            async for chunk in response.iter_bytes():
-                chunk = leftover + chunk
-                if len(chunk) % 2 != 0:
-                    # Save the last byte for the next chunk
-                    leftover = chunk[-1:]
-                    chunk = chunk[:-1]
-                else:
-                    leftover = b""
-                if chunk:
-                    yield np.frombuffer(chunk, dtype=np.int16)
+        )
+        leftover = b""
+        async for chunk in response.iter_bytes():
+            chunk = leftover + chunk
+            if len(chunk) % 2 != 0:
+                # Save the last byte for the next chunk
+                leftover = chunk[-1:]
+                chunk = chunk[:-1]
+            else:
+                leftover = b""
+            if chunk:
+                yield np.frombuffer(chunk, dtype=np.int16)
         # Optionally handle any leftover at the end (shouldn't happen for well-formed streams)
         
 
