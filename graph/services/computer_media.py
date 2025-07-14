@@ -130,7 +130,7 @@ class ConsolePrintService(Service):
     async def handle(self):
         while True:
             publisher, event = await self._inbox.get()
-            print(f"Received audio event from {publisher}: {event.data[:10]}...")  # Print first 10 samples
+            print(f"Received text event from {publisher}: {event.text[:10]}...")  # Print first 10 samples
     
     def run(self) -> asyncio.Task:
         """

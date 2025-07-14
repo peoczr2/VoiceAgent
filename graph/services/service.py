@@ -44,3 +44,11 @@ class Service:
         This should be overridden by subclasses.
         """
         raise NotImplementedError("Subclasses must implement run() method.")
+    
+
+class Echo(Service):
+    """
+    A simple service that echoes received events.
+    """
+    def __init__(self):
+        super().__init__("EchoService")

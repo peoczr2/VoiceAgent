@@ -4,7 +4,6 @@ import asyncio
 import base64
 import json
 import time
-import logging
 import sys
 import io
 from dataclasses import dataclass
@@ -34,14 +33,9 @@ DEFAULT_TURN_DETECTION = {"type": "server_vad",
 # ---------------------------------------------------------------------------
 # Logging setup
 # ---------------------------------------------------------------------------
+import logging
 logger = logging.getLogger(__name__)
-
-
-class AgentsException(Exception):
-    """Generic exception for transcriber-related errors."""
-
-
-def configure_logging(log_file: str = "transcriber.log", level: int = logging.INFO) -> None:
+def configure_logging(log_file: str = "tests/log_files/transcriber.log", level: int = logging.INFO) -> None:
     """Configure both file and stdout logging for this module."""
     logger.setLevel(level)
     logger.propagate = False
@@ -64,6 +58,9 @@ def configure_logging(log_file: str = "transcriber.log", level: int = logging.IN
 # Transcription Events
 # ---------------------------------------------------------------------------
 # TODO: consoder seperating openai events from the rest of the events
+class AgentsException(Exception):
+    """Generic exception for transcriber-related errors."""
+
 
 class WebsocketDoneSentinel:
     """Internal marker pushed on _event_queue once the websocket iterator finishes."""

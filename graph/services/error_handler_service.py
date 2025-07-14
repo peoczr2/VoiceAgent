@@ -4,7 +4,7 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from .service import Service
+from graph.services.service import Service
 from events import ErrorEvent
 
 
@@ -36,3 +36,14 @@ class ErrorHandlerService(Service):
     async def run(self) -> asyncio.Task:
         self.run_task = asyncio.create_task(self.start())
         return self.run_task
+    
+
+# python -m graph.services.transcriber
+if __name__ == "__main__":
+    from graph.services.computer_media import MicrophoneService, ConsolePrintService, SpeakerService
+    import pyaudio
+    async def _main():
+        errhan = ErrorHandlerService(log_file="tests/log_files/error_handler_service_main.log")
+        await errhan.handle("tester", ErrorEvent(error="boom"))
+
+    asyncio.run(_main())

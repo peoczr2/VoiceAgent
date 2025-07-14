@@ -1,0 +1,135 @@
+2025-07-14 01:14:04,413 - INFO - Starting TTSService...
+2025-07-14 01:36:08,289 - INFO - Starting TTSService...
+2025-07-14 01:37:50,376 - INFO - Starting TTSService...
+2025-07-14 01:57:19,638 - INFO - Starting TTSService...
+2025-07-14 01:58:40,768 - INFO - Starting TTSService...
+2025-07-14 01:59:40,546 - INFO - Starting TTSService...
+2025-07-14 01:59:40,547 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:04:55,040 - INFO - Starting TTSService...
+2025-07-14 02:04:55,040 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:05:31,817 - INFO - Starting TTSService...
+2025-07-14 02:05:31,818 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:21:24,453 - INFO - Starting TTSService...
+2025-07-14 02:21:24,453 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:21:24,453 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:22:15,729 - INFO - Starting TTSService...
+2025-07-14 02:22:15,730 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:23:31,600 - INFO - Starting TTSService...
+2025-07-14 02:23:31,600 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:23:31,601 - INFO - stream: True
+2025-07-14 02:24:11,879 - INFO - Starting TTSService...
+2025-07-14 02:24:11,879 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:24:11,880 - INFO - stream: True
+2025-07-14 02:24:42,702 - INFO - Starting TTSService...
+2025-07-14 02:24:42,702 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:24:42,702 - INFO - stream: True
+2025-07-14 02:24:42,703 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:24:42,703 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:24:42,703 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:27:50,580 - INFO - Starting TTSService...
+2025-07-14 02:27:50,581 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:27:50,581 - INFO - stream: True
+2025-07-14 02:27:50,581 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:27:50,582 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:27:50,582 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:29:32,402 - INFO - Starting TTSService...
+2025-07-14 02:29:32,403 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:29:32,403 - INFO - stream: True
+2025-07-14 02:29:32,404 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:29:32,404 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:29:32,404 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:31:54,736 - INFO - Starting TTSService...
+2025-07-14 02:31:54,736 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:31:54,736 - INFO - stream: True
+2025-07-14 02:31:54,736 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:31:54,737 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:34:05,722 - INFO - Starting TTSService...
+2025-07-14 02:34:05,723 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:34:05,724 - INFO - stream: True
+2025-07-14 02:34:05,724 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:34:05,724 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:34:05,725 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:54:56,357 - INFO - Starting TTSService...
+2025-07-14 02:54:56,358 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:54:56,358 - INFO - stream: True
+2025-07-14 02:54:56,358 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:54:56,358 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:54:56,359 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:54:57,431 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,432 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,432 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,432 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,454 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,455 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,517 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,517 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,807 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,807 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,808 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,808 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,808 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,809 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,809 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,809 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,844 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,845 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,845 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,845 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,845 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,846 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,846 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,846 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,895 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,896 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,896 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,896 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,896 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,897 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,897 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,897 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,915 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,915 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,916 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,916 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,935 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,935 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,935 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,936 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,936 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,936 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,963 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,964 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,985 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,985 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,986 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:57,986 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,003 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,004 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,004 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,004 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,004 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,005 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,005 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,005 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,024 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,024 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,025 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:54:58,025 - WARNING - Audio chunk size is not a multiple of 2, truncating last byte
+2025-07-14 02:55:34,123 - INFO - Starting TTSService...
+2025-07-14 02:55:34,124 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:55:34,124 - INFO - stream: True
+2025-07-14 02:55:34,124 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:55:34,125 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:55:34,125 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:56:06,080 - INFO - Starting TTSService...
+2025-07-14 02:56:06,081 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:56:06,081 - INFO - stream: True
+2025-07-14 02:56:06,081 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:56:06,081 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:56:06,082 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:56:43,226 - INFO - Starting TTSService...
+2025-07-14 02:56:43,227 - INFO - Handling event in TTSService: TextEvent(text='Hello, this is a test of the OpenAI TTS service.', type='text')
+2025-07-14 02:56:43,227 - INFO - stream: True
+2025-07-14 02:56:43,227 - INFO - Received TextEvent: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:56:43,228 - INFO - Streaming audio for text: Hello, this is a test of the OpenAI TTS service.
+2025-07-14 02:56:43,228 - INFO - synthesize_stream for text: Hello, this is a test of the OpenAI TTS service.
